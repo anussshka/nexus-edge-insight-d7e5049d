@@ -72,7 +72,8 @@ interface Props {
 }
 
 function getAvg(summary: SummaryData | null, key: string, d: number): string {
-  const v = summary?.averages?.[key];
+  if (!summary) return "—";
+  const v = (summary[`avg_${key}`] ?? summary[key]) as number | undefined;
   return v === undefined || v === null ? "—" : Number(v).toFixed(d);
 }
 
