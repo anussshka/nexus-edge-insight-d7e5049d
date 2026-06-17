@@ -26,7 +26,7 @@ function AdminPage() {
 
   useEffect(() => {
     if (!user) { navigate({ to: "/" }); return; }
-    if (user.role !== "super_admin") { navigate({ to: "/machines" }); return; }
+    if (user.role !== "super") { navigate({ to: "/machines" }); return; }
     load();
   }, [user, navigate]);
 
