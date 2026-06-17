@@ -83,7 +83,7 @@ function LoginPage() {
           <p className="mt-3 text-lg text-muted-foreground">Access your CNC dashboard</p>
 
           <div className="mt-10 grid grid-cols-2 gap-3 rounded-xl border border-border bg-muted p-1.5">
-            {(["super_admin", "company_admin"] as const).map((r) => (
+            {(["super", "sub"] as const).map((r) => (
               <button
                 key={r}
                 type="button"
@@ -94,7 +94,7 @@ function LoginPage() {
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {r === "super_admin" ? "Super Admin" : "Company Admin"}
+                {r === "super" ? "Super Admin" : "Company Admin"}
               </button>
             ))}
           </div>
