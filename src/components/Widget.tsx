@@ -152,7 +152,7 @@ export function Widget({ widgetId, latest, summary }: Props) {
     case "spindle_load": {
       const v = (l.spindle_load as number) ?? 0;
       const color = v > 85 ? "var(--danger)" : v >= 60 ? "var(--warning)" : "var(--success)";
-      const max = summary?.maxes?.spindle_load;
+      const max = summary?.max_spindle_load;
       return (
         <Card title={w.title}>
           <div className="flex items-baseline gap-2">
