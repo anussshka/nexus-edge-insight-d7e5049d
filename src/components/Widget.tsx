@@ -182,7 +182,7 @@ export function Widget({ widgetId, latest, summary }: Props) {
         <Card title={w.title}>
           <FlashValue value={fmt(l.part_count as number, 0)} className="block font-mono text-4xl font-bold text-foreground" />
           <div className="mt-3 font-mono text-[11px] text-muted-foreground">
-            Total samples recorded {summary?.total_samples ?? "—"}
+            Total samples recorded {(summary?.samples as number | undefined) ?? "—"}
           </div>
         </Card>
       );
