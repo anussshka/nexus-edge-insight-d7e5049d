@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 function LoginPage() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  const [role, setRole] = useState<"super_admin" | "company_admin">("company_admin");
+  const [role, setRole] = useState<"super" | "sub">("sub");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState<string | null>(null);
