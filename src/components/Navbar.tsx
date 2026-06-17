@@ -16,7 +16,7 @@ export function Navbar({ children }: { children?: React.ReactNode }) {
   }, []);
 
   const initials = (user?.username || "U").slice(0, 2).toUpperCase();
-  const isSuper = user?.role === "super_admin";
+  const isSuper = user?.role === "super";
 
   return (
     <nav className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-card px-6">
