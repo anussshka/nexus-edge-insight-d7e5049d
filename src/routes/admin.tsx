@@ -77,7 +77,7 @@ function AdminPage() {
   }
 
   const openView = (c: Company) => {
-    const view = { username: c.username, role: "company_admin" as const, company_id: c.id, company_name: c.name };
+    const view = { username: c.username, role: "sub" as const, company_id: c.id, company: c.name };
     localStorage.setItem("cnc_view_as", JSON.stringify(view));
     window.open("/machines", "_blank");
   };
