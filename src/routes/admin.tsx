@@ -181,7 +181,7 @@ function LayoutDrawer({ company, machine, onClose }: { company: Company; machine
       .then((l) => {
         const next = Array.from({ length: 16 }, (_, i) => ({
           cell_index: i,
-          widget_id: l.find((c) => c.cell_index === i)?.widget_id ?? null,
+          widget_id: l.layout.find((c) => c.cell_index === i)?.widget_id ?? null,
         }));
         setCells(next);
       })
