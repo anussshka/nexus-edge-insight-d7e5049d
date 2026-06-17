@@ -33,7 +33,7 @@ function DashboardPage() {
     const m = JSON.parse(raw) as Machine;
     setMachine(m);
     const company_id = user.company_id!;
-    getLayout(company_id, m.machine_id)
+    getLayout(company_id, m.id)
       .then(setLayout)
       .catch(() => setLayout([]))
       .finally(() => setLoadingLayout(false));

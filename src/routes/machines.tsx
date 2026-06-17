@@ -120,7 +120,7 @@ function MachinesPage() {
           <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {machines.map((m) => (
               <MachineCard
-                key={m.machine_id}
+                key={m.id}
                 m={m}
                 onClick={() => {
                   sessionStorage.setItem("cnc_selected_machine", JSON.stringify(m));

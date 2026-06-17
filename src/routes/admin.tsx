@@ -43,8 +43,8 @@ function AdminPage() {
     const tick = async () => {
       const next: Record<string, string> = {};
       await Promise.all(all.map(async (m) => {
-        try { const d = await getLatest(m.api_port); next[m.machine_id] = (d.status || "IDLE").toUpperCase(); }
-        catch { next[m.machine_id] = "OFFLINE"; }
+        try { const d = await getLatest(m.api_port); next[m.id] = (d.status || "IDLE").toUpperCase(); }
+        catch { next[m.id] = "OFFLINE"; }
       }));
       if (alive) setStatuses(next);
     };
@@ -77,7 +77,7 @@ function AdminPage() {
   }
 
   const openView = (c: Company) => {
-    const view = { username: c.username, role: "company_admin" as const, company_id: c.company_id, company_name: c.name };
+    const view = { username: c.username, role: "company_admin" as const, company_id: c.id, company_name: c.name };
     localStorage.setItem("cnc_view_as", JSON.stringify(view));
     window.open("/machines", "_blank");
   };
@@ -102,7 +102,7 @@ function AdminPage() {
         ) : (
           <div className="mt-4 grid grid-cols-1 gap-5 lg:grid-cols-2">
             {companies.map((c) => (
-              <div key={c.company_id} className="rounded-xl border border-border bg-card p-5">
+              <div key={c.id} className="rounded-xl border border-border bg-card p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-bold">{c.name}</h3>
@@ -111,10 +111,10 @@ function AdminPage() {
                 </div>
                 <div className="mt-4 space-y-2">
                   {c.machines.map((m) => {
-                    const s = statuses[m.machine_id] || "OFFLINE";
+                    const s = statuses[m.id] || "OFFLINE";
                     const color = s === "RUNNING" ? "var(--success)" : s === "IDLE" ? "var(--warning)" : "#6b7280";
                     return (
-                      <div key={m.machine_id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-muted/40 p-3">
+                      <div key={m.id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-muted/40 p-3">
                         <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
                         <div className="min-w-0 flex-1">
                           <div className="font-semibold">{m.name}</div>
@@ -177,7 +177,7 @@ function LayoutDrawer({ company, machine, onClose }: { company: Company; machine
   const [dragOver, setDragOver] = useState<number | null>(null);
 
   useEffect(() => {
-    getLayout(company.company_id, machine.machine_id)
+    getLayout(company.id, machine.id)
       .then((l) => {
         const next = Array.from({ length: 16 }, (_, i) => ({
           cell_index: i,
@@ -187,7 +187,7 @@ function LayoutDrawer({ company, machine, onClose }: { company: Company; machine
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [company.company_id, machine.machine_id]);
+  }, [company.id, machine.id]);
 
   const placed = new Set(cells.map((c) => c.widget_id).filter(Boolean) as string[]);
 
@@ -210,7 +210,7 @@ function LayoutDrawer({ company, machine, onClose }: { company: Company; machine
   const onSave = async () => {
     setSaving(true);
     try {
-      await saveLayout(company.company_id, machine.machine_id, cells);
+      await saveLayout(company.id, machine.id, cells);
       toast.success("Layout saved successfully");
     } catch {
       toast.error("Failed to save layout");
@@ -220,7 +220,7 @@ function LayoutDrawer({ company, machine, onClose }: { company: Company; machine
   const onReset = async () => {
     setSaving(true);
     try {
-      await resetLayout(company.company_id, machine.machine_id);
+      await resetLayout(company.id, machine.id);
       setCells(Array.from({ length: 16 }, (_, i) => ({ cell_index: i, widget_id: null })));
       toast.success("Layout reset");
     } catch {
