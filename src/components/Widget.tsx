@@ -72,7 +72,8 @@ interface Props {
 }
 
 function getAvg(summary: SummaryData | null, key: string, d: number): string {
-  const v = summary?.averages?.[key];
+  if (!summary) return "—";
+  const v = (summary[`avg_${key}`] ?? summary[key]) as number | undefined;
   return v === undefined || v === null ? "—" : Number(v).toFixed(d);
 }
 
@@ -151,7 +152,7 @@ export function Widget({ widgetId, latest, summary }: Props) {
     case "spindle_load": {
       const v = (l.spindle_load as number) ?? 0;
       const color = v > 85 ? "var(--danger)" : v >= 60 ? "var(--warning)" : "var(--success)";
-      const max = summary?.maxes?.spindle_load;
+      const max = summary?.max_spindle_load;
       return (
         <Card title={w.title}>
           <div className="flex items-baseline gap-2">
@@ -181,7 +182,7 @@ export function Widget({ widgetId, latest, summary }: Props) {
         <Card title={w.title}>
           <FlashValue value={fmt(l.part_count as number, 0)} className="block font-mono text-4xl font-bold text-foreground" />
           <div className="mt-3 font-mono text-[11px] text-muted-foreground">
-            Total samples recorded {summary?.total_samples ?? "—"}
+            Total samples recorded {(summary?.samples as number | undefined) ?? "—"}
           </div>
         </Card>
       );

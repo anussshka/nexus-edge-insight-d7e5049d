@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 function LoginPage() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  const [role, setRole] = useState<"super_admin" | "company_admin">("company_admin");
+  const [role, setRole] = useState<"super" | "sub">("sub");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -32,7 +32,7 @@ function LoginPage() {
     try {
       const user = await login(username, password, role);
       setUser(user);
-      navigate({ to: user.role === "super_admin" ? "/admin" : "/machines" });
+      navigate({ to: user.role === "super" ? "/admin" : "/machines" });
     } catch {
       setErr("Invalid credentials or backend unreachable");
     } finally {
@@ -83,7 +83,7 @@ function LoginPage() {
           <p className="mt-3 text-lg text-muted-foreground">Access your CNC dashboard</p>
 
           <div className="mt-10 grid grid-cols-2 gap-3 rounded-xl border border-border bg-muted p-1.5">
-            {(["super_admin", "company_admin"] as const).map((r) => (
+            {(["super", "sub"] as const).map((r) => (
               <button
                 key={r}
                 type="button"
@@ -94,7 +94,7 @@ function LoginPage() {
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {r === "super_admin" ? "Super Admin" : "Company Admin"}
+                {r === "super" ? "Super Admin" : "Company Admin"}
               </button>
             ))}
           </div>
