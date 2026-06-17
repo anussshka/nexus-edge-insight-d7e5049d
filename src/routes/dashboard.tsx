@@ -34,7 +34,7 @@ function DashboardPage() {
     setMachine(m);
     const company_id = user.company_id!;
     getLayout(company_id, m.id)
-      .then(setLayout)
+      .then((r) => setLayout(r.layout))
       .catch(() => setLayout([]))
       .finally(() => setLoadingLayout(false));
   }, [user, navigate]);
