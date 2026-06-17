@@ -1,6 +1,6 @@
 // NexusEdge API client - connected to real FastAPI backend
-export const MASTER_API = "http://localhost:9000";
-export const machineBase = (api_port: number | string) => `http://localhost:${api_port}`;
+export const MASTER_API = "http://100.66.29.23:9000";
+export const machineBase = (api_port: number | string) => `http://100.66.29.23:9000:${api_port}`;
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, {
