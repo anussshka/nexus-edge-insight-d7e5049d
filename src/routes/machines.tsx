@@ -97,7 +97,7 @@ function MachinesPage() {
       <Navbar>
         <div className="flex items-center justify-center">
           <span className="rounded-full border border-border bg-muted px-3 py-1 text-sm font-medium text-foreground">
-            {user?.company_name || user?.company_id || "Company"}
+            {user?.company || user?.company_id || "Company"}
           </span>
         </div>
       </Navbar>
