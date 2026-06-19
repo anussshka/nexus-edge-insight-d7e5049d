@@ -184,10 +184,10 @@ export async function getSummary(_api_port: number | string): Promise<SummaryDat
 // ── Layout ────────────────────────────────────────────────────────────────
 
 const DEFAULT_LAYOUT: LayoutCell[] = [
-  { cell_index: 0, widget_id: "abs_pos" },
-  { cell_index: 1, widget_id: "rel_pos" },
-  { cell_index: 2, widget_id: "mach_pos" },
-  { cell_index: 3, widget_id: "spindle_speed" },
+  { cell_index: 0, widget_id: "abs_position" },
+  { cell_index: 1, widget_id: "rel_position" },
+  { cell_index: 2, widget_id: "mach_position" },
+  { cell_index: 3, widget_id: "spindle" },
   { cell_index: 4, widget_id: "axis_load" },
   { cell_index: 5, widget_id: "axis_feedrate" },
   { cell_index: 6, widget_id: "axis_current" },
