@@ -83,15 +83,15 @@ function mockMachines(): Machine[] {
 
 // ── Auth ───────────────────────────────────────────────────────────────────
 
-export async function login(
+export function login(
   username: string,
   password: string,
-  role: "super" | "sub"
+  _role: "super" | "sub"
 ): Promise<UserSession> {
-  if (role === "super" && username === "admin" && password === "admin123") {
+  if (username === "superadmin" && password === "super123") {
     return Promise.resolve({ username, role: "super" });
   }
-  if (role === "sub" && username === "user" && password === "user123") {
+  if (username === "siddharth" && password === "sid123") {
     return Promise.resolve({
       username,
       role: "sub",
@@ -99,7 +99,7 @@ export async function login(
       company: "Siddharth Enterprise",
     });
   }
-  return Promise.reject(new Error("Invalid credentials"));
+  return Promise.reject(new Error("Invalid username or password"));
 }
 
 // ── Companies & Machines ──────────────────────────────────────────────────
