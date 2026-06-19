@@ -202,33 +202,56 @@ const DEFAULT_LAYOUT: LayoutCell[] = [
   { cell_index: 15, widget_id: null },
 ];
 
-const layoutStore = new Map<string, LayoutCell[]>();
+const layoutKey = (machine_id: string | number) => `nexusedge_layout_${machine_id}`;
+
+function readLayout(machine_id: string | number): LayoutCell[] | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(layoutKey(machine_id));
+    if (!raw) return null;
+    const arr = JSON.parse(raw) as (string | null)[];
+    if (!Array.isArray(arr)) return null;
+    const slots: (string | null)[] = Array.from({ length: 16 }, (_, i) => arr[i] ?? null);
+    return slots.map((widget_id, cell_index) => ({ cell_index, widget_id }));
+  } catch {
+    return null;
+  }
+}
 
 export async function getLayout(
-  company_id: string,
+  _company_id: string,
   machine_id: string | number
 ): Promise<LayoutResponse> {
-  const key = `${company_id}:${machine_id}`;
-  const saved = layoutStore.get(key);
+  const saved = readLayout(machine_id);
   return Promise.resolve({
     layout: saved ?? DEFAULT_LAYOUT,
-    configured: !!saved || true,
+    configured: !!saved,
   });
 }
 
 export async function saveLayout(
-  company_id: string,
+  _company_id: string,
   machine_id: string | number,
   layout: LayoutCell[]
 ) {
-  layoutStore.set(`${company_id}:${machine_id}`, layout);
+  const slots: (string | null)[] = Array.from({ length: 16 }, (_, i) => {
+    const cell = layout.find((c) => c.cell_index === i);
+    return cell?.widget_id ?? null;
+  });
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(layoutKey(machine_id), JSON.stringify(slots));
+    // eslint-disable-next-line no-console
+    console.log(`[NexusEdge] Saved layout for machine ${machine_id}`, slots);
+  }
   return Promise.resolve({ ok: true });
 }
 
 export async function resetLayout(
-  company_id: string,
+  _company_id: string,
   machine_id: string | number
 ) {
-  layoutStore.delete(`${company_id}:${machine_id}`);
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(layoutKey(machine_id));
+  }
   return Promise.resolve({ ok: true });
 }
