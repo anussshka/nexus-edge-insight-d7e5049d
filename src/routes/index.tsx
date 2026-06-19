@@ -33,8 +33,8 @@ function LoginPage() {
       const user = await login(username, password, role);
       setUser(user);
       navigate({ to: user.role === "super" ? "/admin" : "/machines" });
-    } catch {
-      setErr("Invalid credentials or backend unreachable");
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Invalid username or password");
     } finally {
       setLoading(false);
     }
